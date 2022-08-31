@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Photon/PhotonUnityNetworking/Eve/SceneConnexion.unity
+    path: Assets/Eve/SceneConnexion.unity
     guid: fd4ee2d87f6845b4bb634af78ec0b459
   - enabled: 1
-    path: Assets/Photon/PhotonUnityNetworking/Eve/SceneJeu.unity
+    path: Assets/Eve/SceneJeu.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}
