@@ -27,7 +27,7 @@ public class gestionJeu : MonoBehaviour
         }
 
 
-        if (PhotonNetwork.IsConnected)
+        if (!PhotonNetwork.IsConnected)
         {
             SceneManager.LoadScene(0);
             return;
