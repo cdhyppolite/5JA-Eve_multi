@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
+using Photon.Realtime;
 
 
 #pragma warning disable 649
 
-public class gestionJeu : MonoBehaviour
+public class gestionJeu : MonoBehaviourPunCallbacks
 {
     static public gestionJeu Instance;
     private GameObject instance;
@@ -47,10 +48,40 @@ public class gestionJeu : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            QuitApplication();
+        }
+    }
 
+    public override void OnPlayerEnteredRoom(Player other)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            loadArena();
+        }
+    }
+    public override void OnPlayerLeftRoom(Player other)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            loadArena();
+        }
+    }
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene(0);
+    }
+    void loadArena()
+    {
+        PhotonNetwork.LoadLevel(1);
     }
 
     public void Quitter()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+    public void QuitApplication()
     {
         Application.Quit();
     }
