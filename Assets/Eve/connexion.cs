@@ -48,6 +48,7 @@ public class connexion : MonoBehaviourPunCallbacks
         if (feedBacktext == null)
             return;
 
+        feedBacktext.gameObject.SetActive(true);
         feedBacktext.text += System.Environment.NewLine + msg;
     }
     public override void OnConnectedToMaster()
