@@ -23,7 +23,7 @@ public class gestionCam : MonoBehaviour
     {
         if (followOnStart)
         {
-            OnStartfollowing();
+            OnStartFollowing();
         }
     }
 
@@ -31,7 +31,7 @@ public class gestionCam : MonoBehaviour
     {
         if (camTransform==null && isFollowing)
         {
-            OnStartfollowing();
+            OnStartFollowing();
         }
         if (isFollowing)
         {
@@ -50,7 +50,7 @@ public class gestionCam : MonoBehaviour
         
     }
 
-    void OnStartfollowing()
+    public void OnStartFollowing()
     {
         camTransform = Camera.main.transform;
         isFollowing = true;
