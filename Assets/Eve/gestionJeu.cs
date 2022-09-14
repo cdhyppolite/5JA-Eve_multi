@@ -40,8 +40,10 @@ public class gestionJeu : MonoBehaviourPunCallbacks
         }
         else
         {
-            int rand = Random.Range(0, posInstances.Length);
-            PhotonNetwork.Instantiate(this.playerPrefab.name, posInstances[rand].transform.position, Quaternion.identity,0);
+            if (gestionJoueur.LocalPlayerInstance==null) {
+                int rand = Random.Range(0, posInstances.Length);
+                PhotonNetwork.Instantiate(this.playerPrefab.name, posInstances[rand].transform.position, Quaternion.identity, 0);
+            }
         }
 
     }

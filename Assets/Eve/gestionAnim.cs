@@ -24,9 +24,9 @@ public class gestionAnim : MonoBehaviourPun
 
     void Update()
     {
-        if (photonView.IsMine)
+        if (!photonView.IsMine && PhotonNetwork.IsConnected)
         {
-            //return;
+            return;
         }
 
         if (!eveAnim)

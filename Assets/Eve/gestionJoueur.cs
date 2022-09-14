@@ -16,7 +16,7 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (photonView.IsMine)
         {
-            //LocalPlayerInstance = gameObject;
+            LocalPlayerInstance = gameObject;
         }
         DontDestroyOnLoad(gameObject);
     }
@@ -29,7 +29,7 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (photonView.IsMine)
             {
-                //gestionCamera.OnStartFollowing();
+                gestionCamera.OnStartFollowing();
             }
         }
         else
