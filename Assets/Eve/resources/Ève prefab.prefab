@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 1
-  playerUiprefab: {fileID: 0}
+  playerUiprefab: {fileID: 1936770559860529156, guid: 8460ddf5500854f43ab85830ae3d0e5d, type: 3}
   beam: {fileID: 8170031833384403873}
 --- !u!114 &8567905721035654225
 MonoBehaviour:
