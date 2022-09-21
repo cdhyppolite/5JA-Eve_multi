@@ -5,29 +5,21 @@ using UnityEngine.UI;
 
 public class affichage : MonoBehaviour
 {
-    [SerializeField]
-    private Text nomJoueur;
+    [SerializeField] private Text nomJoueur;
 
-    [SerializeField]
-    private Slider sliderJoueur;
+    [SerializeField] private Slider sliderJoueur;
 
     gestionJoueur target;
     float characterControllerHeight;
-    Transform targetTransform;//Eve
-    Renderer targetRenderer;//Eve
+    Transform targetTransform; //Ève
+    Renderer targetRenderer; //Ève
     CanvasGroup _canvasGroup;
-    Vector3 targetPosition;//Eve
+    Vector3 targetPosition; //Ève
 
     private void Awake()
     {
         _canvasGroup = this.GetComponent<CanvasGroup>();
         this.transform.SetParent(GameObject.Find("Canvas").GetComponent<Transform>(), false);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
     }
 
     // Update is called once per frame
@@ -38,6 +30,7 @@ public class affichage : MonoBehaviour
             Destroy(this.gameObject);
             return;
         }
+
         if (sliderJoueur != null)
         {
             sliderJoueur.value = target.Health;
@@ -47,16 +40,8 @@ public class affichage : MonoBehaviour
     {
         if (this.targetRenderer != null)
         {
-            //this._canvasGroup.alpha = targetRenderer.isVisible ? 1f : 0f;
-            if (this.targetRenderer.isVisible)
-            {
-                this._canvasGroup.alpha = 1;
-            }
-            else
-            {
-                this._canvasGroup.alpha = 0;
+            this._canvasGroup.alpha = targetRenderer.isVisible ? 1f : 0f;
 
-            }
             if (targetTransform != null)
             {
                 targetPosition = targetTransform.position;
@@ -71,6 +56,7 @@ public class affichage : MonoBehaviour
         {
             return;
         }
+
         this.target = _target;
         targetTransform = this.target.GetComponent<Transform>();
         targetRenderer = this.target.GetComponentInChildren<Renderer>();
@@ -79,10 +65,10 @@ public class affichage : MonoBehaviour
         {
             characterControllerHeight = _characterController.height;
         }
+
         if (nomJoueur != null)
         {
             nomJoueur.text = this.target.photonView.Owner.NickName;
-
         }
     }
 }
