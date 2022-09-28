@@ -62,7 +62,8 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
                 if (!gestionAnim.isShooting)
                 {
                     gestionAnim.isShooting = true;
-                    this.beam.SetActive(true);
+                    //this.beam.SetActive(true);
+                    ActiverBeam();
                 }
             }
             else
@@ -73,7 +74,9 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
         }
         if (this.Health <= 0)
         {
-            QuitterRoom();
+            //QuitterRoom();
+            Invoke("QuitterRoom", 1f);
+            GameObject.Find("Canvas").transform.Find("XMort").gameObject.SetActive(true);
         }
     }
 
@@ -95,6 +98,40 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
         gestionJeu.Instance.Quitter();
     }
 
+    void OnTriggerEnter(Collider infoCol)
+    {
+        if (!photonView.IsMine)
+        {
+            return;
+            //Rien faire si joueur local
+        }
+
+        if(!infoCol.name.Contains("Beam"))
+        {
+            return;
+            //Rien faire si ce n'est pas le laser
+        }
+
+        this.Health -= .1f;
+    }
+
+    void OnTriggerStay(Collider infoCol)
+    {
+        if (!photonView.IsMine)
+        {
+            return;
+            //Rien faire si joueur local
+        }
+
+        if (!infoCol.name.Contains("Beam"))
+        {
+            return;
+            //Rien faire si ce n'est pas le laser
+        }
+
+        this.Health -= .1f * Time.deltaTime;
+    }
+
     //Méthodes des collisions
     void CalledOnLevelWasLoad(int level)
     {
@@ -109,5 +146,9 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
     void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode loadingMode)
     {
         this.CalledOnLevelWasLoad(scene.buildIndex);
+    }
+    public void ActiverBeam()
+    {
+        this.beam.SetActive(true);
     }
 }
