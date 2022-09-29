@@ -20,12 +20,6 @@ public class connexion : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void Connect()
     {
         feedBacktext.text =  "";
@@ -34,6 +28,7 @@ public class connexion : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsConnected)
         {
+            //Rejoindre une partie
             PhotonNetwork.JoinRandomRoom();
         } else
         {
@@ -41,13 +36,13 @@ public class connexion : MonoBehaviourPunCallbacks
             PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.GameVersion = gameVersion;
         }
-
     }
     void LogFeedback(string msg)
     {
         if (feedBacktext == null)
             return;
 
+        //afficher le message
         feedBacktext.gameObject.SetActive(true);
         feedBacktext.text += System.Environment.NewLine + msg;
     }

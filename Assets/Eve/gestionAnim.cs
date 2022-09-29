@@ -26,6 +26,7 @@ public class gestionAnim : MonoBehaviourPun
     {
         if (!photonView.IsMine && PhotonNetwork.IsConnected)
         {
+            //Ne rien faire si on est pas joueur local
             return;
         }
 

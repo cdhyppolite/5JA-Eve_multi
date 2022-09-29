@@ -45,19 +45,17 @@ public class gestionCam : MonoBehaviour
             Debug.Log(pitch);
         }
     }
-    void Update()
-    {
-        
-    }
 
     public void OnStartFollowing()
     {
+        //Active le suivi au début
         camTransform = Camera.main.transform;
         isFollowing = true;
         Cut();
     }
     void Follow()
     {
+        //la caméra suit le joueur
         camOffset.z = -distance;
         camOffset.y = height;
         camTransform.position = Vector3.Lerp(camTransform.position, transform.position + transform.TransformVector(camOffset),smoothSpeed * Time.deltaTime);
@@ -65,6 +63,7 @@ public class gestionCam : MonoBehaviour
     }
     void Cut()
     {
+        //Téléporter la caméra vers le joueur
         camOffset.z = -distance;
         camOffset.y = height;
         camTransform.position = transform.position + transform.TransformVector(camOffset);

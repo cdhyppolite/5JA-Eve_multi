@@ -8,7 +8,7 @@ using Photon.Pun;
 public class inputFieldNom : MonoBehaviour
 {
     const string playerNomPrefKey = "playerNom";
-    // Start is called before the first frame update
+
     void Start()
     {
         string defaultName = string.Empty;
@@ -28,6 +28,7 @@ public class inputFieldNom : MonoBehaviour
     }
     public void SetPlayerName(string value)
     {
+        //Sauvegarder le pseudo
         if (string.IsNullOrEmpty(value))
         {
             Debug.LogError("Nom du Joueur non valide");

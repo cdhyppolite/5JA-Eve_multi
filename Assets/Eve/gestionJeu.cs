@@ -18,6 +18,7 @@ public class gestionJeu : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        //Un seul script gestion jeu par partie
         if (Instance != null && Instance != this)
         {
             Destroy(this);
@@ -27,7 +28,7 @@ public class gestionJeu : MonoBehaviourPunCallbacks
             Instance = this;
         }
 
-
+        //retour à l'accueil on est pas connecté
         if (!PhotonNetwork.IsConnected)
         {
             SceneManager.LoadScene(0);
@@ -40,16 +41,17 @@ public class gestionJeu : MonoBehaviourPunCallbacks
         }
         else
         {
-            if (gestionJoueur.LocalPlayerInstance==null) {
+            //Faire apparaître un joueur à une position random
+            if (gestionJoueur.LocalPlayerInstance == null) {
                 int rand = Random.Range(0, posInstances.Length);
                 PhotonNetwork.Instantiate(this.playerPrefab.name, posInstances[rand].transform.position, Quaternion.identity, 0);
             }
         }
-
     }
 
     void Update()
     {
+        //Quitter le jeu
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             QuitApplication();
@@ -74,6 +76,7 @@ public class gestionJeu : MonoBehaviourPunCallbacks
     {
         SceneManager.LoadScene(0);
     }
+    //Charger le niveau
     void loadArena()
     {
         PhotonNetwork.LoadLevel(1);

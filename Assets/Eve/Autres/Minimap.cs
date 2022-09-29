@@ -13,10 +13,12 @@ public class Minimap : MonoBehaviour
 
     void LateUpdate()
     {
+        //Suivre la cible
         Vector3 newPosition = cible.position;
         newPosition.y = transform.position.y;
         transform.position = newPosition;
 
+        //Orienter la caméra selon la cible
         transform.rotation = Quaternion.Euler(90f, cible.eulerAngles.y, 0);
     }
 }

@@ -14,6 +14,7 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
 
     void Awake()
     {
+        //Assigner le prefab local au joueur local
         if (photonView.IsMine)
         {
             LocalPlayerInstance = gameObject;
@@ -21,9 +22,9 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
         DontDestroyOnLoad(gameObject);
     }
 
-    // Start is called before the first frame update
     void Start()
     {
+        //Assigner la caméra au joueur local
         gestionCam gestionCamera = gameObject.GetComponent<gestionCam>();
         if (gestionCamera!=null)
         {
@@ -36,6 +37,8 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
         {
             Debug.LogWarning("Pas de Script gestionCam sur le player prefab");
         }
+
+        //Faire apparaître le slider du joueur local
         if (this.playerUiprefab != null)
         {
             GameObject _uiGo = Instantiate(this.playerUiprefab);
@@ -49,11 +52,12 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
         UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        //Prendre en compte seulement les commandes si on est le joueur local
         if (photonView.IsMine)
         {
+            //Tire
             if (Input.GetButton("Fire1"))
             {
                 if (EventSystem.current.IsPointerOverGameObject()) {
@@ -76,7 +80,7 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
         {
             //QuitterRoom();
             Invoke("QuitterRoom", 1f);
-            GameObject.Find("Canvas").transform.Find("XMort").gameObject.SetActive(true);
+            GameObject.Find("Canvas").transform.Find("XMort").gameObject.SetActive(true); //Activer une animation de mort
         }
     }
 
@@ -95,9 +99,28 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
     }
     private void QuitterRoom()
     {
+        //retourner à l'accueil
         gestionJeu.Instance.Quitter();
     }
 
+    void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode loadingMode)
+    {
+        this.CalledOnLevelWasLoad(scene.buildIndex);
+    }
+
+    void CalledOnLevelWasLoad(int level)
+    {
+        if (Physics.Raycast(transform.position, -Vector3.up, 5f))
+        {
+            transform.position = new Vector3(0, 5, 0);
+        }
+
+        //Faire apparaître le slider
+        GameObject _uiGo = Instantiate(this.playerUiprefab);
+        _uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
+    }
+
+    //Méthodes des collisions ------------------------------------------
     void OnTriggerEnter(Collider infoCol)
     {
         if (!photonView.IsMine)
@@ -106,7 +129,7 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
             //Rien faire si joueur local
         }
 
-        if(!infoCol.name.Contains("Beam"))
+        if (!infoCol.name.Contains("Beam"))
         {
             return;
             //Rien faire si ce n'est pas le laser
@@ -130,22 +153,6 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         this.Health -= .1f * Time.deltaTime;
-    }
-
-    //Méthodes des collisions
-    void CalledOnLevelWasLoad(int level)
-    {
-        if (Physics.Raycast(transform.position,-Vector3.up, 5f))
-        {
-            transform.position = new Vector3(0, 5, 0);
-        }
-        
-        GameObject _uiGo = Instantiate(this.playerUiprefab);
-        _uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
-    }
-    void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode loadingMode)
-    {
-        this.CalledOnLevelWasLoad(scene.buildIndex);
     }
     public void ActiverBeam()
     {
