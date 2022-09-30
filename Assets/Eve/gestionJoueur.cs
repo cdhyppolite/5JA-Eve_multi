@@ -10,7 +10,9 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
     public static GameObject LocalPlayerInstance;
     [SerializeField] private GameObject playerUiprefab;
     [SerializeField] private GameObject beam;
+    private GameObject beamParticule;
     bool isShooting = false;
+    Vector3 beamScale;
 
     void Awake()
     {
@@ -20,6 +22,9 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
             LocalPlayerInstance = gameObject;
         }
         DontDestroyOnLoad(gameObject);
+
+        beamScale = this.beam.transform.localScale;
+        beamParticule = this.beam.transform.Find("Particle System").gameObject;
     }
 
     void Start()
@@ -66,21 +71,23 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
                 if (!gestionAnim.isShooting)
                 {
                     gestionAnim.isShooting = true;
-                    //this.beam.SetActive(true);
-                    ActiverBeam();
                 }
             }
             else
             {
                 gestionAnim.isShooting = false;
-                this.beam.SetActive(false);
             }
-        }
-        if (this.Health <= 0)
-        {
-            //QuitterRoom();
-            Invoke("QuitterRoom", 1f);
-            GameObject.Find("Canvas").transform.Find("XMort").gameObject.SetActive(true); //Activer une animation de mort
+
+            //cacher si on ne tire pas
+            if (!gestionAnim.isShooting)
+                cacherBeam();
+
+            //Mort
+            if (this.Health <= 0)
+            {
+                Invoke("QuitterRoom", 1f);
+                GameObject.Find("Canvas").transform.Find("XMort").gameObject.SetActive(true); //Activer une animation de mort (localement)
+            }
         }
     }
 
@@ -156,6 +163,14 @@ public class gestionJoueur : MonoBehaviourPunCallbacks, IPunObservable
     }
     public void ActiverBeam()
     {
-        this.beam.SetActive(true);
+        //S'active avec un event (pour se mieux se syncroniser)
+        this.beam.transform.localScale = beamScale;
+        beamParticule.SetActive(true);
+    }
+    public void cacherBeam()
+    {
+        //S'active avec un event (pour se mieux se syncroniser)
+        this.beam.transform.localScale = Vector3.zero;
+        beamParticule.SetActive(false);
     }
 }
